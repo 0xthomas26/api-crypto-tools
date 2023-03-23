@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2015",
+        "outDir": "build",
+        "lib": ["es2015", "ESNext.AsyncIterable"],
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "allowJs": true
+    },
+    "include": ["src", "test"],
+    "exclude": []
+}
