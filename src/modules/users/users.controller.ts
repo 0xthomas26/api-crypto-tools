@@ -5,6 +5,7 @@ import Moralis from 'moralis';
 import jwt from 'jsonwebtoken';
 import { EvmChain } from '@moralisweb3/common-evm-utils';
 import Web3 from 'web3';
+import { zerionFetcher } from '../../utils/zerionFetcher';
 
 export const getSignedInUser = async (req: any, res: Response) => {
     try {
@@ -47,6 +48,49 @@ export const getUserNFTs = async (req: any, res: Response) => {
             return res.status(err.status).json(err.message);
         }
         return res.status(500).json(err);
+    }
+};
+
+export const getUserPortfolio = async (req: any, res: Response) => {
+    try {
+        const { walletAddress } = req.query;
+
+        const data = await zerionFetcher(
+            `${process.env.ZERION_API_URL}/wallets/${walletAddress}/portfolio?currency=usd`
+        );
+
+        return res.status(200).json(data);
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getUserPositions = async (req: any, res: Response) => {
+    try {
+        const { walletAddress, type } = req.query;
+
+        const data = await zerionFetcher(
+            `${process.env.ZERION_API_URL}/wallets/${walletAddress}/positions/?currency=usd&filter[position_types]=${type}&sort=value`
+        );
+
+        return res.status(200).json(data);
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getUserChains = async (req: any, res: Response) => {
+    try {
+        const { chainId } = req.query;
+
+        const data = await zerionFetcher(`${process.env.ZERION_API_URL}/chains/${chainId}`);
+
+        return res.status(200).json(data);
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
     }
 };
 

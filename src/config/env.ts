@@ -7,6 +7,8 @@ declare global {
             PORT: string;
             MORALIS_API_KEY: string;
             SECRET: string;
+            ZERION_API_URL: string;
+            ZERION_API_KEY: string;
         }
 
         interface Global {

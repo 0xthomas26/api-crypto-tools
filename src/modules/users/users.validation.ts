@@ -36,3 +36,38 @@ export const signInUserAddress = (req: Request, res: Response, next: NextFunctio
     }
     next();
 };
+
+export const getUserPortfolio = (req: Request, res: Response, next: NextFunction) => {
+    const schema = Joi.object().keys({
+        walletAddress: Joi.string().required(),
+    });
+    const { error } = schema.validate(req.query);
+    if (error && error.details) {
+        console.log(error.details);
+        return res.status(400).json(`${error.details[0].message}`);
+    }
+    next();
+};
+
+export const getUserPositions = (req: Request, res: Response, next: NextFunction) => {
+    const schema = Joi.object().keys({
+        walletAddress: Joi.string().required(),
+        type: Joi.string().required(),
+    });
+    const { error } = schema.validate(req.query);
+    if (error && error.details) {
+        return res.status(400).json(`${error.details[0].message}`);
+    }
+    next();
+};
+
+export const getUserChains = (req: Request, res: Response, next: NextFunction) => {
+    const schema = Joi.object().keys({
+        chainId: Joi.string().required(),
+    });
+    const { error } = schema.validate(req.query);
+    if (error && error.details) {
+        return res.status(400).json(`${error.details[0].message}`);
+    }
+    next();
+};

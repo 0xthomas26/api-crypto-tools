@@ -12,7 +12,7 @@ export const verifyToken = async (req: userRequest, res: Response, next: NextFun
     if (!token || token === undefined) {
         return res.status(401).json('credentials-required');
     }
-    console.log(token);
+
     jwt.verify(token, `${process.env.SECRET}`, async (err: any, decoded: any) => {
         if (err) {
             console.log(err);
