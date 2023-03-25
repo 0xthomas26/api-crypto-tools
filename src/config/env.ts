@@ -6,6 +6,7 @@ declare global {
             NODE_ENV: string;
             PORT: string;
             MORALIS_API_KEY: string;
+            SECRET: string;
         }
 
         interface Global {

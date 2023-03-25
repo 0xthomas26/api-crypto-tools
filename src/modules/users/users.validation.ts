@@ -25,3 +25,14 @@ export const signInUserWallet = (req: Request, res: Response, next: NextFunction
     }
     next();
 };
+
+export const signInUserAddress = (req: Request, res: Response, next: NextFunction) => {
+    const schema = Joi.object().keys({
+        walletAddress: Joi.string().required(),
+    });
+    const { error } = schema.validate(req.body);
+    if (error && error.details) {
+        return res.status(400).json(`${error.details[0].message}`);
+    }
+    next();
+};
