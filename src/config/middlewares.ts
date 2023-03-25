@@ -17,7 +17,10 @@ export default (app: any) => {
     );
 
     //Setup Cors
-    const whitelist = ['http://localhost:3000'];
+    const whitelist = [
+        'http://localhost:3000',
+        'https://crypto-tools-hjg5fqr92-0xthomas26.vercel.app/',
+    ];
 
     const corsOptions = {
         origin: function (origin: any, callback: any) {
