@@ -4,7 +4,6 @@ import { CustomError } from '../../utils/customError';
 import Moralis from 'moralis';
 import jwt from 'jsonwebtoken';
 import { EvmChain } from '@moralisweb3/common-evm-utils';
-import { ethers } from 'ethers';
 import Web3 from 'web3';
 
 export const getSignedInUser = async (req: any, res: Response) => {
