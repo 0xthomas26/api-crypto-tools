@@ -94,6 +94,34 @@ export const getUserChains = async (req: any, res: Response) => {
     }
 };
 
+export const getUserTransactions = async (req: any, res: Response) => {
+    try {
+        const data = await zerionFetcher(
+            `${process.env.ZERION_API_URL}/wallets/${req.account}/transactions?currency=usd&page[size]=100`
+        );
+
+        return res.status(200).json(data);
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getUserFungibles = async (req: any, res: Response) => {
+    try {
+        const { chainId, query } = req.query;
+
+        const data = await zerionFetcher(
+            `${process.env.ZERION_API_URL}/fungibles/?currency=usd&page[size]=100&filter[implementation_chain_id]=${chainId}&filter[search_query]=${query}&sort=-market_data.market_cap`
+        );
+
+        return res.status(200).json(data);
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
 export const signInUserAddress = async (req: any, res: Response) => {
     try {
         const { walletAddress } = req.body;

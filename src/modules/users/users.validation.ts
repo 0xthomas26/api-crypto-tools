@@ -71,3 +71,15 @@ export const getUserChains = (req: Request, res: Response, next: NextFunction) =
     }
     next();
 };
+
+export const getUserFungibles = (req: Request, res: Response, next: NextFunction) => {
+    const schema = Joi.object().keys({
+        chainId: Joi.string().required(),
+        query: Joi.string().allow(''),
+    });
+    const { error } = schema.validate(req.query);
+    if (error && error.details) {
+        return res.status(400).json(`${error.details[0].message}`);
+    }
+    next();
+};

@@ -15,6 +15,8 @@ router.get('/user/nfts', verifyToken, controller.getUserNFTs);
 router.get('/user/portfolio', verifyToken, validate.getUserPortfolio, controller.getUserPortfolio);
 router.get('/user/positions', verifyToken, validate.getUserPositions, controller.getUserPositions);
 router.get('/user/chains', verifyToken, validate.getUserChains, controller.getUserChains);
+router.get('/user/fungibles', verifyToken, validate.getUserFungibles, controller.getUserFungibles);
+router.get('/user/transactions', verifyToken, controller.getUserTransactions);
 
 // AUTH WALLETS
 router.post('/user/login/walletAddress', validate.signInUserAddress, controller.signInUserAddress);
