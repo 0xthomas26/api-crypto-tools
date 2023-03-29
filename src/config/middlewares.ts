@@ -20,6 +20,7 @@ export default (app: any) => {
     const whitelist = [
         'http://localhost:3000',
         'https://crypto-tools-hjg5fqr92-0xthomas26.vercel.app',
+        'https://crypto-tools-sigma.vercel.app',
     ];
 
     const corsOptions = {
