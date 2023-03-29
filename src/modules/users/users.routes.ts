@@ -11,6 +11,20 @@ router.get('/user/me', verifyToken, controller.getSignedInUser);
 // MORALIS
 router.get('/user/nfts', verifyToken, controller.getUserNFTs);
 
+// MORALIS TOKEN BALANCE/PRICES
+router.get(
+    '/user/tokensBalance',
+    verifyToken,
+    validate.getUserTokensBalance,
+    controller.getUserTokensBalance
+);
+router.get(
+    '/user/tokensPrice',
+    verifyToken,
+    validate.getUserTokensPrice,
+    controller.getUserTokensPrice
+);
+
 // ZERION
 router.get('/user/portfolio', verifyToken, validate.getUserPortfolio, controller.getUserPortfolio);
 router.get('/user/positions', verifyToken, validate.getUserPositions, controller.getUserPositions);

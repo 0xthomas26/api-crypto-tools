@@ -185,3 +185,90 @@ export const signInUserChallenge = async (req: any, res: Response) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const getUserTokensPrice = async (req: any, res: Response) => {
+    try {
+        const { addressOne, addressTwo, chain } = req.query;
+
+        const responseOne = await Moralis.EvmApi.token.getTokenPrice({
+            chain: chain,
+            address: addressOne,
+        });
+
+        const responseTwo = await Moralis.EvmApi.token.getTokenPrice({
+            chain: chain,
+            address: addressTwo,
+        });
+
+        const usdPrices = {
+            tokenOne: responseOne.raw.usdPrice,
+            tokenTwo: responseTwo.raw.usdPrice,
+            ratio: responseOne.raw.usdPrice / responseTwo.raw.usdPrice,
+        };
+
+        return res.status(200).json(usdPrices);
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getUserTokensBalance = async (req: any, res: Response) => {
+    try {
+        const address = req.account;
+        const { addressOne, addressTwo, fromDecimals, toDecimals, chain } = req.query;
+
+        let responseOne;
+        let responseTwo;
+        let balances = {
+            tokenOne: '0',
+            tokenTwo: '0',
+        };
+        if (addressOne === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
+            responseOne = await Moralis.EvmApi.balance.getNativeBalance({
+                address,
+                chain,
+            });
+            balances.tokenOne = (parseFloat(responseOne.raw?.balance) / 10 ** fromDecimals).toFixed(
+                6
+            );
+        } else {
+            responseOne = await Moralis.EvmApi.token.getWalletTokenBalances({
+                chain: chain,
+                tokenAddresses: [addressOne],
+                address,
+            });
+            balances.tokenOne = (
+                responseOne.raw.length === 0
+                    ? 0
+                    : parseFloat(responseOne.raw[0]?.balance) / 10 ** responseOne.raw[0]?.decimals
+            ).toFixed(6);
+        }
+
+        if (addressTwo === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
+            responseTwo = await Moralis.EvmApi.balance.getNativeBalance({
+                address,
+                chain,
+            });
+            balances.tokenTwo = (parseFloat(responseTwo.raw?.balance) / 10 ** toDecimals).toFixed(
+                6
+            );
+        } else {
+            responseTwo = responseTwo = await Moralis.EvmApi.token.getWalletTokenBalances({
+                chain: chain,
+                tokenAddresses: [addressTwo],
+                address,
+            });
+            balances.tokenTwo = (
+                responseTwo.raw.length === 0
+                    ? 0
+                    : parseFloat(responseTwo.raw[0]?.balance) / 10 ** responseTwo.raw[0]?.decimals
+            ).toFixed(6);
+        }
+
+        return res.status(200).json(balances);
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+};

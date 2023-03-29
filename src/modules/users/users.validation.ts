@@ -83,3 +83,33 @@ export const getUserFungibles = (req: Request, res: Response, next: NextFunction
     }
     next();
 };
+
+export const getUserTokensPrice = (req: Request, res: Response, next: NextFunction) => {
+    const schema = Joi.object().keys({
+        addressOne: Joi.string().required(),
+        addressTwo: Joi.string().required(),
+        chain: Joi.string().required(),
+    });
+    const { error } = schema.validate(req.query);
+    if (error && error.details) {
+        console.log(error.details);
+        return res.status(400).json(`${error.details[0].message}`);
+    }
+    next();
+};
+
+export const getUserTokensBalance = (req: Request, res: Response, next: NextFunction) => {
+    const schema = Joi.object().keys({
+        addressOne: Joi.string().required(),
+        addressTwo: Joi.string().required(),
+        fromDecimals: Joi.string().required(),
+        toDecimals: Joi.string().required(),
+        chain: Joi.string().required(),
+    });
+    const { error } = schema.validate(req.query);
+    if (error && error.details) {
+        console.log(error.details);
+        return res.status(400).json(`${error.details[0].message}`);
+    }
+    next();
+};
